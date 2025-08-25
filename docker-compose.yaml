@@ -10,7 +10,7 @@ services:
     restart: always
     # 端口映射：主机的8080端口映射到容器的80端口
     ports:
-      - '80:80'
+      - '8080:80'
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     # 环境变量
