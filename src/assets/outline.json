@@ -1,0 +1,159 @@
+[
+  {
+    "id": "section-1",
+    "section_title": "投标书",
+    "sub_sections": [
+      {
+        "id": "sub-1-1",
+        "sub_section_title": "投标书",
+        "content_summary": "包含投标文件正本/副本声明、投标承诺等核心内容，是投标人正式响应招标要求的基础文件，用于明确投标意向和基本承诺。"
+      },
+      {
+        "id": "sub-1-2",
+        "sub_section_title": "法定代表人授权书",
+        "content_summary": "需附法定代表人及委托代理人身份证复印件，确保投标代表获得合法授权，代表企业签署投标文件。"
+      }
+    ]
+  },
+  {
+    "id": "section-2",
+    "section_title": "资格要求资料",
+    "sub_sections": [
+      {
+        "id": "sub-2-1",
+        "sub_section_title": "承诺函",
+        "content_summary": "承诺满足政府采购法第二十二条规定的独立法人资格、信用状况等核心要求，是投标人通过资格审查的前提。"
+      },
+      {
+        "id": "sub-2-2",
+        "sub_section_title": "中标资金结算承诺书",
+        "content_summary": "二选一提交，明确资金结算账户信息，确保中标后资金流转合规。"
+      },
+      {
+        "id": "sub-2-3",
+        "sub_section_title": "成功案例",
+        "content_summary": "要求提供2022年1月1日至招标公告发布日期间与20家系统重要性银行总行级合作的研发/测试现场技术服务框架合同扫描件，需含关键页面，证明投标人具备相关行业经验与服务能力。"
+      },
+      {
+        "id": "sub-2-4",
+        "sub_section_title": "投标保证金电汇凭证",
+        "content_summary": "需按招标要求提交投标保证金，未提供将导致投标无效，是投标有效性的关键保障。"
+      },
+      {
+        "id": "sub-2-5",
+        "sub_section_title": "廉洁投标承诺书",
+        "content_summary": "承诺无串通投标、行贿等违法违规行为，维护采购过程的公平公正。"
+      }
+    ]
+  },
+  {
+    "id": "section-3",
+    "section_title": "投标应答表",
+    "sub_sections": [
+      {
+        "id": "sub-3-1",
+        "sub_section_title": "投标应答表内容",
+        "content_summary": "对应招标文件评分表技术打分项，列明财务指标、机构设置、相关资质等9项内容的应答情况、证明材料及投标文件对应页码，便于评标委员会核查。"
+      }
+    ]
+  },
+  {
+    "id": "section-4",
+    "section_title": "技术部分资料",
+    "sub_sections": [
+      {
+        "id": "sub-4-1",
+        "sub_section_title": "投标应答表",
+        "content_summary": "提供2023-2024年经审计的财务报表，包括营收、总资产、净利润等数据，附审计报告及会计师资质证明，体现企业财务稳定性。"
+      },
+      {
+        "id": "sub-4-2",
+        "sub_section_title": "财务指标",
+        "content_summary": "提交分支机构/子公司清单，附营业执照、工商登记文件及股权证明，重点体现上海、福州、成都等核心地区布局，展示服务覆盖能力。"
+      },
+      {
+        "id": "sub-4-3",
+        "sub_section_title": "机构设置",
+        "content_summary": "包括质量管理体系、信息安全管理体系等4类认证证书；企业绿色发展方案、资源管理制度截图；环保违法行政处罚查询记录，证明企业管理与合规水平。"
+      },
+      {
+        "id": "sub-4-4",
+        "sub_section_title": "相关资质",
+        "content_summary": "提供CMMI认证证书复印件，需在有效期内，反映软件开发过程的成熟度。"
+      },
+      {
+        "id": "sub-4-5",
+        "sub_section_title": "人员规模",
+        "content_summary": "提供TMMI认证证书复印件，需在有效期内，证明测试过程的质量保障能力。"
+      },
+      {
+        "id": "sub-4-6",
+        "sub_section_title": "同业案例",
+        "content_summary": "提交2025年6月社保缴纳证明，含公司本部及分公司汇总清单，明确人数及关键信息，展示团队规模与履约能力。"
+      },
+      {
+        "id": "sub-4-7",
+        "sub_section_title": "人员管理方案",
+        "content_summary": "提供案例明细表，含客户名称、项目名称、服务内容、签署日期、案例类型，附合同关键页证明材料，验证实际服务经验。"
+      },
+      {
+        "id": "sub-4-8",
+        "sub_section_title": "服务保障方案",
+        "content_summary": "包括人员准入淘汰机制、质量管理与问责、信息安全保障、服务连续性与应急预案、人员业务知识培训等，全面提升服务可靠性。"
+      }
+    ]
+  },
+  {
+    "id": "section-5",
+    "section_title": "投标人认为其他可纳入投标文件的内容",
+    "sub_sections": [
+      {
+        "id": "sub-5-1",
+        "sub_section_title": "补充承诺函",
+        "content_summary": "承诺中标后1个月内办理兴业银行代发工资业务，员工费用占比不低于75%，增强投标竞争力。"
+      },
+      {
+        "id": "sub-5-2",
+        "sub_section_title": "其他对投标有利的材料",
+        "content_summary": "可包括额外资质证书、客户感谢信、技术创新成果等，补充展示企业优势。"
+      }
+    ]
+  },
+  {
+    "id": "section-6",
+    "section_title": "报价书",
+    "sub_sections": [
+      {
+        "id": "sub-6-1",
+        "sub_section_title": "纳税人类型声明",
+        "content_summary": "声明增值税一般纳税人或小规模纳税人身份，影响税务处理。"
+      },
+      {
+        "id": "sub-6-2",
+        "sub_section_title": "发票类型声明",
+        "content_summary": "明确提供增值税专用发票，确保结算合规。"
+      },
+      {
+        "id": "sub-6-3",
+        "sub_section_title": "报价表",
+        "content_summary": "按一线城市/非一线城市分类，列明软件工程师、测试工程师、研发支持岗各层级的人月含税单价报价及对应拦标单价，精确到小数点后四位，是价格评分的关键依据。"
+      },
+      {
+        "id": "sub-6-4",
+        "sub_section_title": "承诺说明",
+        "content_summary": "明确报价为含税价、税率、据实结算规则，避免后续争议。"
+      }
+    ]
+  },
+  {
+    "id": "section-7",
+    "section_title": "核心模块标识",
+    "sub_sections": [
+      {
+        "id": "sub-7-1",
+        "sub_section_title": "核心模块概述",
+        "content_summary": "表格形式汇总A卷和B卷中的核心模块，包括资格证明类的承诺函、成功案例、投标保证金材料；技术部分的人员管理方案、服务保障方案、同业案例等；报价类的报价书。每个模块标注核心原因，如直接影响资格审查、技术得分或价格得分，帮助投标人聚焦关键内容。"
+      }
+    ]
+  }
+]
