@@ -6,7 +6,9 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const Ball: typeof import('../utils/ball')['Ball']
   const EffectScope: typeof import('vue')['EffectScope']
+  const Playground: typeof import('../utils/playground')['Playground']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
@@ -87,4 +89,10 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { Ball } from '../utils/ball'
+  import('../utils/ball')
+  // @ts-ignore
+  export type { Playground } from '../utils/playground'
+  import('../utils/playground')
 }

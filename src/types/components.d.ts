@@ -8,6 +8,23 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AButton: typeof import('ant-design-vue/es')['Button']
+    ACollapse: typeof import('ant-design-vue/es')['Collapse']
+    ACollapsePanel: typeof import('ant-design-vue/es')['CollapsePanel']
+    AEmpty: typeof import('ant-design-vue/es')['Empty']
+    AForm: typeof import('ant-design-vue/es')['Form']
+    AFormItem: typeof import('ant-design-vue/es')['FormItem']
+    AInput: typeof import('ant-design-vue/es')['Input']
+    ALayout: typeof import('ant-design-vue/es')['Layout']
+    ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
+    ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader']
+    AMenu: typeof import('ant-design-vue/es')['Menu']
+    ASelect: typeof import('ant-design-vue/es')['Select']
+    ASkeleton: typeof import('ant-design-vue/es')['Skeleton']
+    ASpin: typeof import('ant-design-vue/es')['Spin']
+    ATable: typeof import('ant-design-vue/es')['Table']
+    ATour: typeof import('ant-design-vue/es')['Tour']
+    AUpload: typeof import('ant-design-vue/es')['Upload']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
