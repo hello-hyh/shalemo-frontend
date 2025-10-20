@@ -1,70 +1,89 @@
 <template>
   <template v-if="!isShowContent">
-    <section class="p-6 bg-white rounded-lg shadow flex flex-col gap-4">
-      <header class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-slate-700">标书列表</h2>
+    <a-spin :spinning="isUploading">
+      <template #tip>
+        <div>正在处理中...</div>
+      </template>
+      <section
+        class="p-6 bg-white rounded-lg shadow flex flex-col gap-4 h-[calc(100vh-50px)]"
+      >
+        <header class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-slate-700">标书列表</h2>
 
-        <a-upload
-          :file-list="fileList"
-          :before-upload="handleBeforeUpload"
-          :on-remove="handleRemove"
-          @change="handleChange"
-          accept=".doc,.docx,.pdf"
-        >
-          <a-button type="default" ref="ref1" class="!flex items-center gap-2">
-            <upload-outlined />
-            上传招标文件
-          </a-button>
-        </a-upload>
-        <!-- <a-button type="primary" :loading="isSaving" @click="handleAdd">
+          <a-upload
+            :file-list="fileList"
+            :before-upload="handleBeforeUpload"
+            :on-remove="handleRemove"
+            @change="handleChange"
+            accept=".doc,.docx,.pdf"
+          >
+            <a-button
+              type="default"
+              ref="ref1"
+              class="!flex items-center gap-2"
+            >
+              <upload-outlined />
+              上传招标文件
+            </a-button>
+          </a-upload>
+          <!-- <a-button type="primary" :loading="isSaving" @click="handleAdd">
           新增标书
         </a-button> -->
-      </header>
+        </header>
 
-      <a-form layout="inline" class="gap-4" @submit.prevent="">
-        <a-form-item label="标书名">
-          <a-input
-            v-model:value="formState.name"
-            placeholder="请输入标书名"
-            allow-clear
-            @blur="handleSeachName"
-          />
-        </a-form-item>
+        <a-form layout="inline" class="gap-4" @submit.prevent="">
+          <a-form-item label="标书名">
+            <a-input
+              v-model:value="formState.name"
+              placeholder="请输入标书名"
+              allow-clear
+              @blur="handleSeachName"
+            />
+          </a-form-item>
 
-        <a-form-item label="标书类型">
-          <a-select
-            v-model:value="formState.type"
-            :options="typeOptions"
-            class="w-64"
-            @change="handleTypeChange"
-          />
-        </a-form-item>
-      </a-form>
+          <a-form-item label="标书类型">
+            <a-select
+              v-model:value="formState.type"
+              :options="typeOptions"
+              class="w-64"
+              @change="handleTypeChange"
+            />
+          </a-form-item>
+        </a-form>
 
-      <a-table
-        :columns="columns"
-        :data-source="tableData"
-        row-key="id"
-        :pagination="{ pageSize: 8, showSizeChanger: false }"
-      >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'createdAt'">
-            {{ formatDate(record.createdAt) }}
+        <a-table
+          :columns="columns"
+          :data-source="tableData"
+          row-key="id"
+          :scroll="{
+            y: 'calc(100vh - 300px)',
+          }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'createdAt'">
+              {{ formatDate(record.createdAt) }}
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-button type="link" danger @click="handleRemoveItem(record.id)">
+                删除
+              </a-button>
+            </template>
+            <template v-else-if="column.key === 'downloadUrl'">
+              <a-button type="link" @click="handleDownload(record.downloadUrl)">
+                下载
+              </a-button>
+            </template>
           </template>
-          <template v-else-if="column.key === 'action'">
-            <a-button type="link" danger @click="handleRemoveItem(record.id)">
-              删除
-            </a-button>
-          </template>
-          <template v-else-if="column.key === 'downloadUrl'">
-            <a-button type="link" @click="handleDownload(record.downloadUrl)">
-              下载
-            </a-button>
-          </template>
-        </template>
-      </a-table>
-    </section>
+        </a-table>
+        <a-pagination
+          v-model:current="pagination.current"
+          :total="pagination.total"
+          show-less-items
+        />
+      </section>
+    </a-spin>
   </template>
+
   <template v-else>
     <a-spin :spinning="isUploading || isBuilding">
       <template #tip>
@@ -203,16 +222,6 @@
           </main>
         </section>
       </div>
-      <a-tour
-        :open="isTourOpen"
-        :current="currentStep"
-        :steps="steps"
-        @finish="handleFinishTour"
-      >
-        <template #indicatorsRender="{ current, total }">
-          <span>{{ current + 1 }} / {{ total }}</span>
-        </template>
-      </a-tour>
     </a-spin>
   </template>
 </template>
@@ -238,6 +247,8 @@ import OutlineBJson from '@/assets/outline-b.json'
 import axios from 'axios'
 import type { TableColumnType } from 'ant-design-vue'
 import { Button } from 'ant-design-vue'
+import dayjs from 'dayjs'
+import mockTableData from './mock-data.json'
 // 模拟 JSON 数据
 interface SubSection {
   id: string
@@ -266,6 +277,7 @@ const buildUseTime = ref(0)
 const isShowContent = ref(false)
 
 const exportFileName = ref('')
+const rawFileName = ref('')
 
 const fileId = ref('')
 
@@ -273,66 +285,9 @@ const ref1 = ref(null)
 const ref2 = ref(null)
 const ref3 = ref(null)
 
-const isTourOpen = ref<boolean>(false)
 const currentStep = ref<number>(0)
 
 const currentUploadFlag = ref<'A' | 'B' | null>(null)
-
-const steps: TourProps['steps'] = [
-  {
-    title: '上传文件',
-    description: '目前支持.pdf文件',
-    target: () => ref1.value && ref1.value.$el,
-    nextButtonProps: {
-      children: () => h('span', '下一步'),
-      onClick: () => {
-        isTourOpen.value = false
-        currentStep.value = 1
-      },
-    },
-  },
-  {
-    title: '开始生成',
-    description: '点击开始生成按钮，生成完成后可下载文档',
-    target: () => ref2.value && ref2.value.$el,
-    prevButtonProps: {
-      children: () => h('span', '上一步'),
-      onClick: () => {
-        currentStep.value = 0
-      },
-    },
-    nextButtonProps: {
-      children: () => h('span', '下一步'),
-      onClick: () => {
-        currentStep.value = 2
-      },
-    },
-  },
-  {
-    title: '下载文件',
-    description: '点击下载文件按钮，下载生成的文档',
-    target: () => ref3.value && ref3.value.$el,
-    prevButtonProps: {
-      children: () => h('span', '上一步'),
-    },
-    nextButtonProps: {
-      children: () => h('span', '结束'),
-    },
-  },
-]
-
-onMounted(() => {
-  if (!localStorage.getItem('isFirstUse')) {
-    isTourOpen.value = true
-  } else {
-    isTourOpen.value = false
-  }
-})
-
-const handleFinishTour = () => {
-  isTourOpen.value = false
-  // localStorage.setItem('isFirstUse', 'true')
-}
 
 // 当前展示内容
 const renderedContent = computed(() => {
@@ -396,6 +351,8 @@ const handleUpload = () => {
     formData.append('filelaw', 'null')
     formData.append('typeDocument', '1')
     formData.append('typeAgentDocument', '1')
+    console.log(fileList.value[0], 'fileList.value[0]')
+    rawFileName.value = fileList.value[0].name || ''
     let calcUseTimer = setInterval(() => {
       uploadUseTime.value++
     }, 1000)
@@ -409,25 +366,25 @@ const handleUpload = () => {
     )
       ? 'B'
       : 'A'
-    isTourOpen.value = false
     currentStep.value = 1
     axios
       .post('https://bid.cisetech.com/bidupload', formData)
       .then((res) => {
-        console.log(res, '111')
         fileId.value = res.data.data.file_id
         fileList.value = []
         message.success('上传成功.')
-        isShowContent.value = true
-        isTourOpen.value = true
+        setTimeout(() => {
+          isShowContent.value = true
+          isUploading.value = false
+        }, 1000)
       })
       .catch((error) => {
         message.error('upload failed.')
         console.log(error)
         isShowContent.value = false
+        isUploading.value = false
       })
       .finally(() => {
-        isUploading.value = false
         clearInterval(calcUseTimer)
         calcUseTimer = null
         uploadUseTime.value = 0
@@ -448,7 +405,6 @@ const handleGenerate = async () => {
     buildUseTime.value++
   }, 1000)
   try {
-    console.log(fileList.value, 'fileList')
     const { data } = await axios.post(
       'https://bid.cisetech.com/bidgenerate_document',
       {
@@ -461,9 +417,9 @@ const handleGenerate = async () => {
       exportFileName.value
     )}`
     console.log(downloadUrl, 'downloadUrl')
-    tableData.value.push({
+    tableData.value.unshift({
       id: fileId.value,
-      name: exportFileName.value,
+      name: rawFileName.value,
       createdAt: new Date().toLocaleString(),
       downloadUrl: downloadUrl,
       type: currentUploadFlag.value,
@@ -565,11 +521,20 @@ const columns = computed<TableColumnType<TenderRecord>[]>(() => [
   { title: '操作', key: 'action', width: 120 },
 ])
 
+const pagination = ref({
+  current: 1,
+  defaultPageSize: 10,
+  total: tableData.value.length,
+})
+
 onMounted(() => {
   const cached = window.localStorage.getItem(STORAGE_KEY)
   if (cached) {
     try {
-      tableData.value = (JSON.parse(cached) as TenderRecord[]) || []
+      tableData.value = [
+        ...((JSON.parse(cached) as TenderRecord[]) || []),
+        ...(mockTableData as unknown as TenderRecord[]),
+      ].sort((a, b) => dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix())
     } catch (err) {
       console.warn('localStorage 解析失败，使用空列表', err)
       tableData.value = []
@@ -616,7 +581,10 @@ const handleDownload = (url: string) => {
   window.open(url, '_blank')
 }
 const handleTypeChange = () => {
-  const rawDatas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '') || []
+  const rawDatas = [
+    ...(JSON.parse(localStorage.getItem(STORAGE_KEY) || '') || []),
+    ...mockTableData,
+  ].sort((a, b) => dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix())
   if (formState.type === null) {
     tableData.value = rawDatas
   } else {
@@ -624,10 +592,16 @@ const handleTypeChange = () => {
   }
 }
 const handleSeachName = () => {
-  const rawDatas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '') || []
+  const rawDatas = [
+    ...(JSON.parse(localStorage.getItem(STORAGE_KEY) || '') || []),
+    ...mockTableData,
+  ].sort((a, b) => dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix())
 
   if (formState.name === '') {
-    tableData.value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '') || []
+    tableData.value = [
+      ...(JSON.parse(localStorage.getItem(STORAGE_KEY) || '') || []),
+      ...mockTableData,
+    ].sort((a, b) => dayjs(b.createdAt).unix() + dayjs(a.createdAt).unix())
   } else {
     tableData.value = (rawDatas || []).filter((t) =>
       t.name.includes(formState.name)

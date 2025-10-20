@@ -13,7 +13,7 @@
         :icon-map="iconMap"
         @select="handleMenuSelect"
       ></Sidbar>
-      <div class="h-full w-full p-4">
+      <div class="h-full w-full p-4 overflow-hidden">
         <router-view></router-view>
       </div>
     </a-layout-content>
