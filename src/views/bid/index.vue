@@ -578,7 +578,11 @@ const handleRemoveItem = (id: string) => {
   message.success('已删除')
 }
 const handleDownload = (url: string) => {
-  window.open(url, '_blank')
+  if (url) {
+    window.open(url, '_blank')
+  } else {
+    message.info('数据处理中')
+  }
 }
 const handleTypeChange = () => {
   const rawDatas = [
